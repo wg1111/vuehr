@@ -31,6 +31,7 @@ router.beforeEach((to, from, next) => {
       next();
     }else {
       // console.log(to)
+      alert("请先登录！");
       next("/?redirect=" + to.path);
     }
 

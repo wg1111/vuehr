@@ -2,10 +2,10 @@
     <div>
         <el-tabs  v-model="activeName" type="card">
             <el-tab-pane label="部门管理" name="first"><DepManager></DepManager></el-tab-pane>
-            <el-tab-pane label="职位管理" name="second"><PosManager></PosManager></el-tab-pane>
-            <el-tab-pane label="职称管理" name="third"><JobManager></JobManager></el-tab-pane>
-            <el-tab-pane label="奖惩规则" name="fourth"><BpManager></BpManager></el-tab-pane>
-            <el-tab-pane label="权限组" name="fourt"><PermissManager></PermissManager></el-tab-pane>
+            <el-tab-pane label="职位管理" name="posmanager"><PosManager></PosManager></el-tab-pane>
+            <el-tab-pane label="职称管理" name="jobmanager"><JobManager></JobManager></el-tab-pane>
+            <el-tab-pane label="奖惩规则" name="bpmanager"><BpManager></BpManager></el-tab-pane>
+            <el-tab-pane label="权限组" name="permissmanager"><PermissManager></PermissManager></el-tab-pane>
         </el-tabs>
     </div>
 </template>
@@ -20,7 +20,7 @@
         name: "SysBasic",
         data(){
             return{
-                activeName:"second"
+                activeName:"jobmanager"
             }
         },
         components:{
