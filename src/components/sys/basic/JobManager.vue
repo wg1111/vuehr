@@ -43,7 +43,16 @@
                 <el-table-column
                         prop="createDate"
                         label="创建时间"
-                        width="150">
+                        width="180">
+                </el-table-column>
+                <el-table-column
+                        prop="enabled"
+                        width="100"
+                        label="是否启用">
+                    <template slot-scope="scope">
+                        <el-tag type="success" v-if="scope.row.enabled">已启用</el-tag>
+                        <el-tag type="danger" v-else>未启用</el-tag>
+                    </template>
                 </el-table-column>
                 <el-table-column
                         label="操作">
@@ -77,6 +86,15 @@
                     </el-option>
                 </el-select>
                 </div>
+                <div>
+                    <el-tag>是否启用</el-tag>
+                    <el-switch
+                            style="margin-left: 8px"
+                            v-model="updateJob.enabled"
+                            active-text="启用"
+                            inactive-text="禁用">
+                    </el-switch>
+                </div>
             </div>
             <span slot="footer" class="dialog-footer">
     <el-button @click="dialogVisible = false">取 消</el-button>
@@ -98,13 +116,13 @@
                 },
                 updateJob: {
                     name: '',
-                    titleLevel: ''
+                    titleLevel: '',
+                    enabled:''
                 },
                 dialogVisible:false,
                 titleLevels:[
                     "初级",
                     "中级",
-                    "高级",
                     "员级",
                     "副高级",
                     "正高级",
