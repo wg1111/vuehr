@@ -1,6 +1,13 @@
 <template>
     <div>
-        <el-form :rules="rules" :model="loginForm" ref="loginForm" class="loginContainer">
+        <el-form
+                :rules="rules"
+                :model="loginForm"
+                ref="loginForm"
+                v-loading="loading"
+                element-loading-text="登录中..."
+                element-loading-spinner="el-icon-loading"
+                class="loginContainer">
             <h3 class="loginTitle">系统登录</h3>
             <el-form-item prop="username">
                 <el-input type="text" v-model="loginForm.username" auto-complete="off" placeholder="请输入用户名"></el-input>
@@ -8,7 +15,7 @@
             <el-form-item prop="password">
                 <el-input type="password" v-model="loginForm.password" auto-complete="off" placeholder="请输入密码"></el-input>
             </el-form-item>
-            <el-checkbox v-model="checked" class="loginRemember"></el-checkbox>
+            <el-checkbox v-model="checked" class="loginRemember">记住密码</el-checkbox>
             <el-button type="primary" style="width: 100%" @click="login">登录</el-button>
         </el-form>
     </div>
@@ -25,6 +32,7 @@
                     password:"123"
                 },
                 checked:true,
+                loading: false,//加载图案
                 rules:{
                     username:[{required:true,message:"请输入用户名",trigger:"blur"}],
                     password:[{required:true,message:"请输入密码",trigger:"blur"}]
@@ -35,7 +43,9 @@
             login(){
                 this.$refs.loginForm.validate((valid) => {
                     if (valid) {
+                        this.loading = true;
                         this.postKeyValue('/doLogin',this.loginForm).then(resp=>{
+                            this.loading = false;
                             if (resp){
                                 // alert(JSON.stringify(resp))
                                 window.sessionStorage.setItem("user",JSON.stringify(resp.obj))
