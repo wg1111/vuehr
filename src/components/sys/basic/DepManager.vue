@@ -82,8 +82,11 @@
             addDep2Deps(deps, dep) {
                 for (let i = 0; i < deps.length; i++) {
                     let d = deps[i];
-                    if (d.id == dep.parentId) {
+                    if (d.id === dep.parentId) {
                         d.children = d.children.concat(dep);
+                        if (d.children.length > 0) {
+                            d.parent = true;
+                        }
                         return;
                     } else {
                         this.addDep2Deps(d.children, dep);
@@ -112,14 +115,17 @@
                 this.dep.parentId = data.id;
                 this.dialogVisible = true;
             },
-            removeDepFromDeps(department, id) {
+            removeDepFromDeps(parent, department, id) {
                 for (let i = 0; i < department.length; i++) {
                     let d = department[i];
                     if (d.id == id) {
                         department.splice(i, 1);
+                        if (department.length === 0) {
+                            parent.parent=false;
+                        }
                         return;
-                    }else {
-                        this.removeDepFromDeps(d.children, id);
+                    } else {
+                        this.removeDepFromDeps(d, d.children, id);
                     }
                 }
             },
@@ -134,7 +140,7 @@
                     }).then(() => {
                         this.deleteRequest("/system/basic/dep/"+data.id).then(resp=>{
                             if (resp) {
-                                this.removeDepFromDeps(this.departments,data.id);
+                                this.removeDepFromDeps(null,this.departments,data.id);
                             }
                         })
                     }).catch(() => {
